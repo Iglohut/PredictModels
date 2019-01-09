@@ -17,6 +17,7 @@ from models.BayesModel import Bayes
 from models.XGBoostModel import XGBoost
 from models.MLPModel import MLP
 from models.EnsembleRF import EnsembleRF
+from models.EnsembleXG import EnsembleXG
 
 
 # Open file
@@ -59,6 +60,9 @@ loader = myLoader()
 models = [RF, RFr, Bayes, XGBoost, MLP]
 models = [m() for m in models]
 
+ensembleModels = [EnsembleRF, EnsembleXG]
+ensembleModels = [m(models) for m in ensembleModels]
+
 for model in models:
        print("\nUsing ", model.name)
 
@@ -77,14 +81,21 @@ for model in models:
 
 
 # The ensemble model
-ve = EnsembleRF(models)
-ve.feature_selection()
-ve.train(X_train, y_train)
-ve.test(X_test, y_test)
-saver.save_predictions(ve.predictions, 'predictions/' + ve.name + '.csv')
-print("AUROC on test set is:", test_auroc(ve.name))
+for ensembleModel in ensembleModels:
+       ensembleModel.feature_selection()
+       ensembleModel.train(X_train, y_train)
+       ensembleModel.test(X_test, y_test)
+       saver.save_predictions(ensembleModel.predictions, 'predictions/' + ensembleModel.name + '.csv')
+       print("AUROC on test set is:", test_auroc(ensembleModel.name))
+#
+# ve = EnsembleRF(models)
+# ve.feature_selection()
+# ve.train(X_train, y_train)
+# ve.test(X_test, y_test)
+# saver.save_predictions(ve.predictions, 'predictions/' + ve.name + '.csv')
+# print("AUROC on test set is:", test_auroc(ve.name))
 
-models.append(ve)
+[models.append(m) for m in ensembleModels]
 
 # Save models
 test_accuracies = [test_auroc(model.name) for model in models]

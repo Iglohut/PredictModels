@@ -76,17 +76,19 @@ def analyze_feature_importances_all(models):
     nclassifier = 0
     for row in range(nrows):
         for col in range(ncols):
-            name = names_classifiers[nclassifier][0]
-            classifier = names_classifiers[nclassifier][1]
-            indices = np.argsort(classifier.clf.best_estimator_.feature_importances_)[::-1][:40]
-            g = sns.barplot(y=np.array(classifier.featureList)[indices][:40],
-                            x=classifier.clf.best_estimator_.feature_importances_[indices][:40], orient='h',
-                            ax=axes[row][col])
-            g.set_xlabel("Relative importance", fontsize=12)
-            g.set_ylabel("Features", fontsize=12)
-            g.tick_params(labelsize=9)
-            g.set_title(name + " feature importance")
-            nclassifier += 1
+            if nclassifier <= len(posModels):
+                name = names_classifiers[nclassifier][0]
+                classifier = names_classifiers[nclassifier][1]
+                indices = np.argsort(classifier.clf.best_estimator_.feature_importances_)[::-1][:40]
+                g = sns.barplot(y=np.array(classifier.featureList)[indices][:40],
+                                x=classifier.clf.best_estimator_.feature_importances_[indices][:40], orient='h',
+                                ax=axes[row][col])
+                g.set_xlabel("Relative importance", fontsize=12)
+                g.set_ylabel("Features", fontsize=12)
+                g.tick_params(labelsize=9)
+                g.set_title(name + " feature importance")
+                nclassifier += 1
 
     plt.show()
+    plt.tight_layout()
     plt.savefig('./figs/FeatureImportances.pdf')
