@@ -76,7 +76,7 @@ def analyze_feature_importances_all(models):
     nclassifier = 0
     for row in range(nrows):
         for col in range(ncols):
-            if nclassifier <= len(posModels):
+            if nclassifier < len(posModels):
                 name = names_classifiers[nclassifier][0]
                 classifier = names_classifiers[nclassifier][1]
                 indices = np.argsort(classifier.clf.best_estimator_.feature_importances_)[::-1][:40]
