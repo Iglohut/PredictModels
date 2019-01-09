@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e591e5c3-75d2-4e4b-9ed6-7e213164080d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/featureImportance.py" beforeDir="false" afterPath="$PROJECT_DIR$/featureImportance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figs/FeatureImportances.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/figs/FeatureImportances.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_usefeatures.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_usefeatures.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,11 +12,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_usefeatures.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="95" column="53" lean-forward="true" selection-start-line="95" selection-start-column="53" selection-end-line="95" selection-end-column="53" />
+            <state relative-caret-position="425">
+              <caret line="97" column="28" lean-forward="true" selection-start-line="97" selection-start-column="28" selection-end-line="97" selection-end-column="28" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -37,7 +36,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/featureImportance.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="435">
@@ -142,8 +141,8 @@
         <option value="$PROJECT_DIR$/models/RFrmodel.py" />
         <option value="$PROJECT_DIR$/auxiliary/modelPlots.py" />
         <option value="$PROJECT_DIR$/models/EnsembleXG.py" />
-        <option value="$PROJECT_DIR$/main_usefeatures.py" />
         <option value="$PROJECT_DIR$/featureImportance.py" />
+        <option value="$PROJECT_DIR$/main_usefeatures.py" />
       </list>
     </option>
   </component>
@@ -373,16 +372,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_usefeatures.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="95" column="53" lean-forward="true" selection-start-line="95" selection-start-column="53" selection-end-line="95" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/XGBoostModel.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -397,6 +386,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
           <caret line="88" column="57" lean-forward="true" selection-start-line="88" selection-start-column="57" selection-end-line="88" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_usefeatures.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="97" column="28" lean-forward="true" selection-start-line="97" selection-start-column="28" selection-end-line="97" selection-end-column="28" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
