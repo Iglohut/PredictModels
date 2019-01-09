@@ -18,7 +18,7 @@ from models.XGBoostModel import XGBoost
 from models.MLPModel import MLP
 from models.EnsembleRF import EnsembleRF
 from models.EnsembleXG import EnsembleXG
-
+from models.EnsembleRFr import EnsembleRFr
 
 # Open file
 file = './Data/SS_alldata_OS_ehmt1.csv'
@@ -60,7 +60,7 @@ loader = myLoader()
 models = [RF, RFr, Bayes, XGBoost, MLP]
 models = [m() for m in models]
 
-ensembleModels = [EnsembleRF, EnsembleXG]
+ensembleModels = [EnsembleRF, EnsembleXG, EnsembleRFr]
 ensembleModels = [m(models) for m in ensembleModels]
 
 for model in models:
@@ -76,7 +76,7 @@ for model in models:
        saver.save_predictions(model.predictions, 'predictions/' + model.name + '.csv')
 
        # Validate
-       # model.acc = test_auroc(model.name)
+       model.acc = test_auroc(model.name)
        print("AUROC on test set is:", test_auroc(model.name))
 
 
@@ -86,6 +86,7 @@ for ensembleModel in ensembleModels:
        ensembleModel.train(X_train, y_train)
        ensembleModel.test(X_test, y_test)
        saver.save_predictions(ensembleModel.predictions, 'predictions/' + ensembleModel.name + '.csv')
+       ensembleModel.acc = test_auroc(ensembleModel.name)
        print("AUROC on test set is:", test_auroc(ensembleModel.name))
 [models.append(m) for m in ensembleModels]
 

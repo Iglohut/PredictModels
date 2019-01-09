@@ -14,12 +14,13 @@ class mySaver(object):
 
     def save_models(self, models, test_accuracies):
         # Load saved model scores
-        if isfile('./saved_models/saved_model_scores.pkl'):
-            saved_model_scores = load('./saved_models/saved_model_scores.pkl')
-        else:
+        # if isfile('./saved_models/saved_model_scores.pkl'):
+        #     # saved_model_scores = load('./saved_models/saved_model_scores.pkl')
+        #
+        # else:
             # Create the file from scratch
-            open('./saved_models/saved_model_scores.pkl', 'w+').close()
-            saved_model_scores = {}
+        open('./saved_models/saved_model_scores.pkl', 'w+').close()
+        saved_model_scores = {}
 
         # Update saved model scores
         for i, model in enumerate(models):
