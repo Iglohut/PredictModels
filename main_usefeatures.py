@@ -6,11 +6,12 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV
 from sklearn import metrics
-from featureImportance import analyze_feature_importance, obtain_feature_scores, analyze_feature_importance2, analyze_feature_importances_all
+from featureImportance import *
 from testPerformance.testAUROC import get_auroc, test_auroc
 from input_output.Saver import mySaver
 from input_output.Loader import myLoader
 from auxiliary.modelPlots import plotModelCorrelation, compareModelAcc
+from auxiliary.funcs import flatten
 from models.RFmodel import RF
 from models.RFrmodel import RFr
 from models.BayesModel import Bayes
@@ -19,6 +20,8 @@ from models.MLPModel import MLP
 from models.EnsembleRF import EnsembleRF
 from models.EnsembleXG import EnsembleXG
 from models.EnsembleRFr import EnsembleRFr
+from sklearn.model_selection import permutation_test_score
+from sklearn.model_selection import StratifiedKFold
 
 # Open file
 file = './Data/SS_alldata_OS_ehmt1.csv'
@@ -57,10 +60,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_
 saver = mySaver()
 loader = myLoader()
 
-models = [RF, RFr, Bayes, XGBoost, MLP]
+models = [RF, Bayes, XGBoost, MLP]
 models = [m() for m in models]
 
-ensembleModels = [EnsembleRF, EnsembleXG, EnsembleRFr]
+ensembleModels = [EnsembleRF, EnsembleXG]
 ensembleModels = [m(models) for m in ensembleModels]
 
 for model in models:
@@ -75,6 +78,16 @@ for model in models:
        model.test(X_test, y_test)
        saver.save_predictions(model.predictions, 'predictions/' + model.name + '.csv')
 
+       # Test significance of prediction
+       cv = StratifiedKFold(2)
+       score, permutation_scores, pvalue = permutation_test_score(
+              model.clf.best_estimator_, X_test, np.ravel(y_test), scoring="roc_auc", cv=cv, n_permutations=100, n_jobs=1)
+       model.p_value = np.copy(pvalue)
+       print(model.name + " p-value roc_auc:", str(pvalue))
+
+       # Computing Feature importances
+       model.feature_importances(X_train, y_train, X_test, y_test)
+
        # Validate
        model.acc = test_auroc(model.name)
        print("AUROC on test set is:", test_auroc(model.name))
@@ -88,13 +101,25 @@ for ensembleModel in ensembleModels:
        saver.save_predictions(ensembleModel.predictions, 'predictions/' + ensembleModel.name + '.csv')
        ensembleModel.acc = test_auroc(ensembleModel.name)
        print("AUROC on test set is:", test_auroc(ensembleModel.name))
-[models.append(m) for m in ensembleModels]
 
+       # Test significance of prediction
+       score, permutation_scores, pvalue = permutation_test_score(
+              ensembleModel.clf.best_estimator_, X_test, np.ravel(y_test), scoring="roc_auc", cv=cv, n_permutations=100, n_jobs=1)
+       ensembleModel.p_value = np.copy(pvalue)
+       print(model.name + " p-value roc_auc:", str(pvalue))
+
+
+# [models.append(m) for m in ensembleModels]
+allModels = flatten([models, ensembleModels])
 # Save models
-test_accuracies = [test_auroc(model.name) for model in models]
-saver.save_models(models, test_accuracies)
+test_accuracies = [test_auroc(model.name) for model in allModels]
+saver.save_models(allModels, test_accuracies)
 
 # Compare models
-compareModelAcc(models)
-plotModelCorrelation(models)
-analyze_feature_importances_all(models)
+compareModelAcc(allModels)
+plotModelCorrelation(allModels)
+# analyze_feature_importances_all(allModels)
+plot_featureimportances_drop(models)
+
+
+

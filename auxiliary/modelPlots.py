@@ -3,7 +3,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import sys
-
 def compareModelAcc(models):
     '''
     Receives as input a list models, containing model objects.
@@ -12,6 +11,7 @@ def compareModelAcc(models):
     cv_means = []
     cv_std = []
     model_names = []
+    p_values = []
 
     for model in models:
         if hasattr(model, 'acc'):
@@ -19,15 +19,23 @@ def compareModelAcc(models):
             cv_means.append(model.acc)
             # cv_std.append(cv_result.std())
             cv_std.append(0)
+            p_values.append(model.p_value)
 
-    cv_res = pd.DataFrame({"CrossValMeans":cv_means,"CrossValerrors": cv_std,"Algorithm":model_names})
+    cv_res = pd.DataFrame({"CrossValMeans":cv_means,"Pvalues": p_values,"Algorithm":model_names})
     plt.figure()
-    g = sns.barplot("CrossValMeans","Algorithm",data = cv_res, palette="Set3",orient = "h",**{'xerr':cv_std})
+    g = sns.barplot("CrossValMeans","Algorithm",data = cv_res, color="grey",orient = "h")
     g.set_xlabel("Mean Accuracy")
-    g = g.set_title("Cross validation scores")
+    g.set_title("Cross validation scores")
+    p_values = np.array(p_values)
+    p_strings = (p_values < 0.05).astype(int) + (p_values < 0.01) + (p_values < 0.001)
+
+    for i, v in enumerate(p_strings):
+        g.text(cv_means[i] + 0.01, i, "".join(["*"] * v), color='black', ha="center")
     plt.show()
     plt.tight_layout()
     plt.savefig('./figs/modelAccs.pdf')
+
+
 
 def plotModelCorrelation(models):
     '''

@@ -1,7 +1,7 @@
 from sklearn.model_selection import GridSearchCV
 import numpy as np
 from sklearn.naive_bayes import GaussianNB
-
+from rfpimp import * # Feature importaces permutation tests
 # This model contains the code for a GradientBoostingClassifier model for the Titanic task, including
 # feature selection, training and testing methods.
 class Bayes(object):
@@ -9,6 +9,7 @@ class Bayes(object):
         self.train_set_size = -1
         self.name = "Bayes"
         self.predictions =[]
+        self.p_value = np.nan
 
     def feature_selection(self, X_train):
         self.featureList = ['first_object', 'first_object_latency',
@@ -22,6 +23,14 @@ class Bayes(object):
         self.featureList = list(X_train[self.featureList].dtypes[X_train[self.featureList].dtypes != 'object'].index)
         return self.featureList
 
+
+    def feature_importances(self, X_train, y_train, X_test, y_test):
+        y_train = np.array(y_train).ravel()
+        y_test = np.array(y_test).ravel()
+        imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train,X_test, y_test)
+        featureList = np.asarray(imp["Importance"]._stat_axis)
+        featureImportances = np.array(imp["Importance"]._values)
+        self.featureImportances = [featureList, featureImportances]
 
     # train the model with the features determined in feature_selection()
     def train(self, X_train, y_train):

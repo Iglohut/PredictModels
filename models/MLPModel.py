@@ -1,12 +1,14 @@
 import numpy as np
 from sklearn.model_selection import GridSearchCV
 from sklearn.neural_network import MLPClassifier
+from rfpimp import * # Feature importaces permutation tests
 
 class MLP(object):
     def __init__(self):
         self.train_set_size = -1
         self.name = "MLP"
         self.predictions = []
+        self.p_value = np.nan
 
     def feature_selection(self, X_train):
         self.featureList = ['first_object', 'first_object_latency',
@@ -18,6 +20,17 @@ class MLP(object):
                             'min2_DI', 'min3_DI', 'min4_DI', 'min5_DI']
 
         self.featureList = list(X_train[self.featureList].dtypes[X_train[self.featureList].dtypes != 'object'].index)
+
+
+    def feature_importances(self, X_train, y_train, X_test, y_test):
+        y_train = np.array(y_train).ravel()
+        y_test = np.array(y_test).ravel()
+        imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train,X_test, y_test)
+        featureList = np.asarray(imp["Importance"]._stat_axis)
+        featureImportances = np.array(imp["Importance"]._values)
+        self.featureImportances = [featureList, featureImportances]
+
+
 
     # Training data should probably be a split of features and labels [X, Y]
     def train(self, X_train, y_train):

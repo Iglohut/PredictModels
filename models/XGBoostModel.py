@@ -2,6 +2,7 @@ from models.Model import Model
 from sklearn.model_selection import GridSearchCV
 import numpy as np
 from xgboost.sklearn import XGBClassifier
+from rfpimp import * # Feature importaces permutation tests
 
 # This model contains the code for an ZGBoost model for the Titanic task, including
 # feature selection, training and testing methods.
@@ -10,6 +11,7 @@ class XGBoost(object):
         self.train_set_size = -1
         self.predictions =[]
         self.name = "XGBoost"
+        self.p_value = np.nan
 
     def feature_selection(self, X_train):
         self.featureList = ['first_object', 'first_object_latency',
@@ -21,6 +23,14 @@ class XGBoost(object):
                             'min2_DI', 'min3_DI', 'min4_DI', 'min5_DI']
 
         self.featureList = list(X_train[self.featureList].dtypes[X_train[self.featureList].dtypes != 'object'].index)
+
+    def feature_importances(self, X_train, y_train, X_test, y_test):
+        y_train = np.array(y_train).ravel()
+        y_test = np.array(y_test).ravel()
+        imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train,X_test, y_test)
+        featureList = np.asarray(imp["Importance"]._stat_axis)
+        featureImportances = np.array(imp["Importance"]._values)
+        self.featureImportances = [featureList, featureImportances]
 
 
     # train the model with the features determined in feature_selection()

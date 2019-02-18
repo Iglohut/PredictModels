@@ -1,13 +1,14 @@
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV
 import numpy as np
-
+from rfpimp import * # Feature importaces permutation tests
 
 class RFr(object):
     def __init__(self):
         self.train_set_size = -1
         self.name = "RFr"
         self.predictions =[]
+        self.p_value = np.nan
 
     def feature_selection(self, X_train):
         self.featureList = ['first_object', 'first_object_latency',
@@ -19,6 +20,14 @@ class RFr(object):
                             'min2_DI', 'min3_DI', 'min4_DI', 'min5_DI']
 
         self.featureList = list(X_train[self.featureList].dtypes[X_train[self.featureList].dtypes != 'object'].index)
+
+    def feature_importances(self, X_train, y_train, X_test, y_test):
+        y_train = np.array(y_train).ravel()
+        y_test = np.array(y_test).ravel()
+        imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train,X_test, y_test)
+        featureList = np.asarray(imp["Importance"]._stat_axis)
+        featureImportances = np.array(imp["Importance"]._values)
+        self.featureImportances = [featureList, featureImportances]
 
 
     def train(self, X_train, y_train):

@@ -9,6 +9,7 @@ class EnsembleRF(object):
         self.name = "EnsembleRF"
         self.predictions =[]
         self.models = models
+        self.p_value = np.nan
 
     def feature_selection(self):
         self.featureList = [model.name for model in self.models]

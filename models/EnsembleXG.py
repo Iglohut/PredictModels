@@ -3,15 +3,19 @@ import numpy as np
 from xgboost.sklearn import XGBClassifier
 from sklearn.model_selection import GridSearchCV
 
+
+
 class EnsembleXG(object):
     def __init__(self, models):
         self.train_set_size = -1
         self.name = "EnsembleXG"
         self.predictions =[]
         self.models = models
+        self.p_value = np.nan
 
     def feature_selection(self):
         self.featureList = [model.name for model in self.models]
+
 
     def train(self, X_train, y_train):
         if self.featureList == []:

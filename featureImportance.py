@@ -92,3 +92,35 @@ def analyze_feature_importances_all(models):
     plt.show()
     plt.tight_layout()
     plt.savefig('./figs/FeatureImportances.pdf')
+
+
+def plot_featureimportances_drop(models):
+    """
+    Uses dropcolumn permuation
+    :param models:
+    :return:
+    """
+    ncols = int(np.ceil(np.sqrt(len(models))))
+    nrows = int(np.round(np.sqrt(len(models))))
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, sharex="all", figsize=(15, 15))
+
+    names_classifiers = [(model.name, model) for model in models]
+
+    nclassifier = 0
+    for row in range(nrows):
+        for col in range(ncols):
+            if nclassifier < len(models):
+                name = names_classifiers[nclassifier][0]
+                classifier = names_classifiers[nclassifier][1]
+                indices = np.argsort(classifier.featureImportances[1])[::-1][:40]
+                g = sns.barplot(y=np.array(classifier.featureImportances[0])[indices][:40],  # Featurelist
+                                x=classifier.featureImportances[1][indices][:40], orient='h',
+                                ax=axes[row][col])
+                g.set_xlabel("Relative importance", fontsize=12)
+                g.set_ylabel("Features", fontsize=12)
+                g.tick_params(labelsize=9)
+                g.set_title(name + " feature importance")
+                nclassifier += 1
+
+    plt.show()
+    plt.tight_layout()

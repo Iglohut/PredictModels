@@ -7,6 +7,7 @@ class Model(object):
         self.acc = -1
         # NOTE: change this to the name of your model, it is used for the name of the prediction output file
         self.name = "baseModel"
+        self.p_value = np.nan
 
     def feature_selection(self, X_train):
         pass

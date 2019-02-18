@@ -2,13 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e591e5c3-75d2-4e4b-9ed6-7e213164080d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/models/EnsembleRFr.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auxiliary/funcs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auxiliary/modelPlots.py" beforeDir="false" afterPath="$PROJECT_DIR$/auxiliary/modelPlots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/featureImportance.py" beforeDir="false" afterPath="$PROJECT_DIR$/featureImportance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/figs/FeatureImportances.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/figs/FeatureImportances.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/figs/modelAccs.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/figs/modelAccs.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/figs/modelCorrs.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/figs/modelCorrs.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input_output/Saver.py" beforeDir="false" afterPath="$PROJECT_DIR$/input_output/Saver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_usefeatures.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_usefeatures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/BayesModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/BayesModel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/EnsembleRF.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/EnsembleRF.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/EnsembleRFr.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/EnsembleRFr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/EnsembleXG.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/EnsembleXG.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/MLPModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/MLPModel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/Model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/RFmodel.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/RFmodel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/RFrmodel.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/RFrmodel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/XGBoostModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/XGBoostModel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saved_models/Bayes.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/saved_models/Bayes.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saved_models/EnsembleRF.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/saved_models/EnsembleRF.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saved_models/EnsembleRFr.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/saved_models/EnsembleRFr.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saved_models/EnsembleXG.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/saved_models/EnsembleXG.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saved_models/MLP.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/saved_models/MLP.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saved_models/RF.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/saved_models/RF.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saved_models/RFr.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/saved_models/RFr.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saved_models/XGBoost.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/saved_models/XGBoost.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saved_models/saved_model_scores.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/saved_models/saved_model_scores.pkl" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,8 +40,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_usefeatures.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="86" column="16" lean-forward="true" selection-end-line="99" selection-end-column="39" />
+            <state relative-caret-position="49">
+              <caret line="96" column="36" lean-forward="true" selection-start-line="96" selection-start-column="36" selection-end-line="96" selection-end-column="36" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -32,12 +50,12 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/input_output/Saver.py">
+        <entry file="file://$PROJECT_DIR$/auxiliary/modelPlots.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="18" column="12" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+            <state relative-caret-position="210">
+              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
               <folding>
-                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -46,8 +64,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/featureImportance.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="81" column="26" selection-start-line="81" selection-start-column="26" selection-end-line="81" selection-end-column="26" />
+            <state relative-caret-position="394">
+              <caret line="96" column="32" selection-start-line="96" selection-start-column="4" selection-end-line="96" selection-end-column="32" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -56,22 +74,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auxiliary/modelPlots.py">
+        <entry file="file://$PROJECT_DIR$/models/RFmodel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="29" column="19" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/RFrmodel.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
+            <state relative-caret-position="195">
+              <caret line="25" selection-start-line="25" selection-end-line="31" selection-end-column="67" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
@@ -80,22 +86,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/EnsembleRFr.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="32" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/XGBoostModel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="53" selection-start-line="53" selection-end-line="70" />
+            <state relative-caret-position="285">
+              <caret line="28" column="41" selection-start-line="28" selection-start-column="41" selection-end-line="28" selection-end-column="41" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -104,22 +98,34 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/EnsembleXG.py">
+        <entry file="file://$PROJECT_DIR$/models/MLPModel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-150">
-              <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+            <state relative-caret-position="390">
+              <caret line="26" column="41" selection-start-line="26" selection-start-column="41" selection-end-line="26" selection-end-column="41" />
               <folding>
-                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/EnsembleRF.py">
+        <entry file="file://$PROJECT_DIR$/models/BayesModel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" selection-end-line="84" selection-end-column="34" />
+            <state relative-caret-position="420">
+              <caret line="28" column="41" selection-start-line="28" selection-start-column="41" selection-end-line="28" selection-end-column="41" />
+              <folding>
+                <element signature="e#0#48#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/EnsembleXG.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-491">
+              <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -147,22 +153,23 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/models/Model.py" />
         <option value="$PROJECT_DIR$/input_output/Loader.py" />
         <option value="$PROJECT_DIR$/testPerformance/testAUROC.py" />
-        <option value="$PROJECT_DIR$/models/BayesModel.py" />
+        <option value="$PROJECT_DIR$/models/Ensembler.py" />
+        <option value="$PROJECT_DIR$/input_output/Saver.py" />
+        <option value="$PROJECT_DIR$/models/EnsembleRFr.py" />
+        <option value="$PROJECT_DIR$/models/EnsembleRF.py" />
+        <option value="$PROJECT_DIR$/models/Model.py" />
         <option value="$PROJECT_DIR$/models/RFmodel.py" />
+        <option value="$PROJECT_DIR$/models/RFrmodel.py" />
         <option value="$PROJECT_DIR$/models/XGBoostModel.py" />
         <option value="$PROJECT_DIR$/models/MLPModel.py" />
-        <option value="$PROJECT_DIR$/models/Ensembler.py" />
-        <option value="$PROJECT_DIR$/models/EnsembleRF.py" />
-        <option value="$PROJECT_DIR$/models/RFrmodel.py" />
-        <option value="$PROJECT_DIR$/auxiliary/modelPlots.py" />
+        <option value="$PROJECT_DIR$/models/BayesModel.py" />
         <option value="$PROJECT_DIR$/models/EnsembleXG.py" />
         <option value="$PROJECT_DIR$/featureImportance.py" />
-        <option value="$PROJECT_DIR$/models/EnsembleRFr.py" />
+        <option value="$PROJECT_DIR$/auxiliary/funcs.py" />
         <option value="$PROJECT_DIR$/main_usefeatures.py" />
-        <option value="$PROJECT_DIR$/input_output/Saver.py" />
+        <option value="$PROJECT_DIR$/auxiliary/modelPlots.py" />
       </list>
     </option>
   </component>
@@ -184,6 +191,11 @@
             <path>
               <item name="PredictModels" type="b2602c69:ProjectViewProjectNode" />
               <item name="PredictModels" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PredictModels" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PredictModels" type="462c0819:PsiDirectoryNode" />
+              <item name="auxiliary" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PredictModels" type="b2602c69:ProjectViewProjectNode" />
@@ -212,6 +224,34 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="main_usefeatures" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="PredictModels" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_usefeatures.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main_usefeatures" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -238,20 +278,20 @@
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19279778" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19501385" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32899022" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32972974" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32972974" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32899022" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="10" visible="true" weight="0.33116177" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="10" visible="true" weight="0.33224756" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -281,40 +321,7 @@
     </layout-to-restore>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/models/Model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="12" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/BayesModel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="41" selection-start-line="41" selection-end-line="41" />
-          <folding>
-            <element signature="e#1#49#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/MLPModel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="42" column="87" selection-start-line="42" selection-start-column="87" selection-end-line="42" selection-end-column="87" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/Ensembler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/models/Ensembler.py" />
     <entry file="file://$PROJECT_DIR$/testPerformance/testAUROC.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -332,40 +339,101 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/RFmodel.py">
+    <entry file="file://$PROJECT_DIR$/input_output/Saver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+        <state relative-caret-position="315">
+          <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="67" />
           <folding>
-            <element signature="e#33#84#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auxiliary/modelPlots.py">
+    <entry file="file://$PROJECT_DIR$/models/Model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="29" column="19" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
+        <state relative-caret-position="135">
+          <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/EnsembleRF.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/EnsembleRFr.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-510">
+          <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/MLPModel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="41" selection-start-line="26" selection-start-column="41" selection-end-line="26" selection-end-column="41" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/BayesModel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="41" selection-start-line="28" selection-start-column="41" selection-end-line="28" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/XGBoostModel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="53" selection-start-line="53" selection-end-line="70" />
+        <state relative-caret-position="285">
+          <caret line="28" column="41" selection-start-line="28" selection-start-column="41" selection-end-line="28" selection-end-column="41" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/RFmodel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="25" selection-start-line="25" selection-end-line="31" selection-end-column="67" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/RFrmodel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auxiliary/funcs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/featureImportance.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="81" column="26" selection-start-line="81" selection-start-column="26" selection-end-line="81" selection-end-column="26" />
+        <state relative-caret-position="394">
+          <caret line="96" column="32" selection-start-line="96" selection-start-column="4" selection-end-line="96" selection-end-column="32" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -374,38 +442,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/EnsembleXG.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-150">
-          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/EnsembleRF.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" selection-end-line="84" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/RFrmodel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/EnsembleRFr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="32" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
+        <state relative-caret-position="-491">
+          <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -414,20 +452,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_usefeatures.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="86" column="16" lean-forward="true" selection-end-line="99" selection-end-column="39" />
+        <state relative-caret-position="49">
+          <caret line="96" column="36" lean-forward="true" selection-start-line="96" selection-start-column="36" selection-end-line="96" selection-end-column="36" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/input_output/Saver.py">
+    <entry file="file://$PROJECT_DIR$/auxiliary/modelPlots.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="18" column="12" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+        <state relative-caret-position="210">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
