@@ -1,27 +1,20 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-import numpy as np
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import GridSearchCV
-from sklearn import metrics
 from featureImportance import *
 from testPerformance.testAUROC import get_auroc, test_auroc
 from input_output.Saver import mySaver
 from input_output.Loader import myLoader
 from auxiliary.modelPlots import plotModelCorrelation, compareModelAcc
 from auxiliary.funcs import flatten
-from models.RFmodel import RF
-from models.RFrmodel import RFr
 from models.BayesModel import Bayes
 from models.XGBoostModel import XGBoost
 from models.MLPModel import MLP
 from models.EnsembleRF import EnsembleRF
 from models.EnsembleXG import EnsembleXG
-from models.EnsembleRFr import EnsembleRFr
 from sklearn.model_selection import permutation_test_score
 from sklearn.model_selection import StratifiedKFold
+from models.RFmodel import RF
 
 # Open file
 file = './Data/SS_alldata_OS_ehmt1.csv'
@@ -63,6 +56,7 @@ loader = myLoader()
 models = [RF, Bayes, XGBoost, MLP]
 models = [m() for m in models]
 
+
 ensembleModels = [EnsembleRF, EnsembleXG]
 ensembleModels = [m(models) for m in ensembleModels]
 
@@ -79,11 +73,7 @@ for model in models:
        saver.save_predictions(model.predictions, 'predictions/' + model.name + '.csv')
 
        # Test significance of prediction
-       cv = StratifiedKFold(2)
-       score, permutation_scores, pvalue = permutation_test_score(
-              model.clf.best_estimator_, X_test, np.ravel(y_test), scoring="roc_auc", cv=cv, n_permutations=100, n_jobs=1)
-       model.p_value = np.copy(pvalue)
-       print(model.name + " p-value roc_auc:", str(pvalue))
+       model.get_pvalue_metric(X_test, y_test)
 
        # Computing Feature importances
        model.feature_importances(X_train, y_train, X_test, y_test)
@@ -103,6 +93,7 @@ for ensembleModel in ensembleModels:
        print("AUROC on test set is:", test_auroc(ensembleModel.name))
 
        # Test significance of prediction
+       cv = StratifiedKFold(2)
        score, permutation_scores, pvalue = permutation_test_score(
               ensembleModel.clf.best_estimator_, X_test, np.ravel(y_test), scoring="roc_auc", cv=cv, n_permutations=100, n_jobs=1)
        ensembleModel.p_value = np.copy(pvalue)
