@@ -16,6 +16,8 @@ from sklearn.model_selection import permutation_test_score
 from sklearn.model_selection import StratifiedKFold
 from models.RFmodel import RF
 
+from models.Model import EnsembleModel
+
 # Open file
 file = './Data/SS_alldata_OS_ehmt1.csv'
 df = pd.read_csv(file)
@@ -58,6 +60,7 @@ models = [m() for m in models]
 
 
 ensembleModels = [EnsembleRF, EnsembleXG]
+# ensembleModels = [EnsembleModel]
 ensembleModels = [m(models) for m in ensembleModels]
 
 for model in models:
@@ -83,21 +86,27 @@ for model in models:
        print("AUROC on test set is:", test_auroc(model.name))
 
 
-# The ensemble model
+# The ensemble models
 for ensembleModel in ensembleModels:
        ensembleModel.feature_selection()
        ensembleModel.train(X_train, y_train)
        ensembleModel.test(X_test, y_test)
        saver.save_predictions(ensembleModel.predictions, 'predictions/' + ensembleModel.name + '.csv')
+
+       # Test significance of prediction
+       ensembleModel.get_pvalue_metric(X_test, y_test)
+
+       # Feature importance
+       ensembleModel.feature_importances(X_train, y_train, X_test, y_test)
+
+       # Validate
        ensembleModel.acc = test_auroc(ensembleModel.name)
        print("AUROC on test set is:", test_auroc(ensembleModel.name))
 
-       # Test significance of prediction
-       cv = StratifiedKFold(2)
-       score, permutation_scores, pvalue = permutation_test_score(
-              ensembleModel.clf.best_estimator_, X_test, np.ravel(y_test), scoring="roc_auc", cv=cv, n_permutations=100, n_jobs=1)
-       ensembleModel.p_value = np.copy(pvalue)
-       print(model.name + " p-value roc_auc:", str(pvalue))
+
+
+
+
 
 
 # [models.append(m) for m in ensembleModels]

@@ -124,3 +124,4 @@ def plot_featureimportances_drop(models):
 
     plt.show()
     plt.tight_layout()
+    plt.savefig('./figs/FeatureImportances.pdf')

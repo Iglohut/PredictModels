@@ -51,6 +51,9 @@ class Model(object):
 
     def feature_importances(self, X_train, y_train, X_test, y_test):
         "Computes feature importances base don drop-col: the ultimate measure."
+        X_test = self._convertX(X_test)
+        X_train = self._convertX(X_train)
+
         y_train = np.array(y_train).ravel()
         y_test = np.array(y_test).ravel()
         imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train,X_test, y_test)
@@ -62,7 +65,7 @@ class Model(object):
     def train(self, X_train, y_train):
         if self.featureList == []:
             raise ValueError('No features selected. Please first run feature selection.')
-
+        X_train = self._convertX(X_train)
         # save trainingset size, prepare the data, and select the features
         self.train_set_size = len(X_train)
         X_train = np.array(X_train[self.featureList])
@@ -71,7 +74,7 @@ class Model(object):
         print("Training model..")
 
         # Specific stuff here
-        self.clf = GridSearchCV(self.clf_raw, param_grid=self.param_grid, cv=10, scoring="roc_auc", n_jobs=2)
+        self.clf = GridSearchCV(self.clf_raw, param_grid=self.param_grid, cv=10, scoring="roc_auc", n_jobs=1)
         self.clf.fit(X_train, y_train)
 
         print("Best parameters:")
@@ -87,7 +90,7 @@ class Model(object):
             raise ValueError('No features selected. Please first run feature selection.')
         if self.train_set_size == -1:
             raise ValueError("Couldn't determine training set size, did you run feature_selection and train first?")
-
+        X_test = self._convertX(X_test)
         labels = np.array(labels)
         X_test = np.array(X_test[self.featureList])
         y_pred = self.clf.predict(X_test)
@@ -99,6 +102,7 @@ class Model(object):
 
     def get_pvalue_metric(self,X_test, y_test):
         "Computes permutation p-value for the roc_auc metric."
+        X_test = self._convertX(X_test)
         cv = StratifiedKFold(2)
         score, permutation_scores, pvalue = permutation_test_score(
             self.clf.best_estimator_, X_test, np.ravel(y_test), scoring="roc_auc", cv=cv, n_permutations=100, n_jobs=1)
@@ -110,5 +114,39 @@ class Model(object):
             raise ValueError('No features selected. Please first run feature selection.')
         if self.train_set_size == -1:
             raise ValueError("Couldn't determine training set size, did you run feature_selection and train first?")
+        X = self._convertX(X)
         X = np.array(X[self.featureList])
         return self.clf.predict(X)
+
+    def _convertX(self, X):
+        return X
+
+
+class EnsembleModel(Model):
+    def __init__(self, models):
+        super().__init__()
+        self.models = models
+        # NOTE: change this to the name of your model, it is used for the name of the prediction output file
+        self.name = "EnsemblebaseModel"
+
+        # # SET MODEL: Set the classifier AND parameters to be used for train for each subcass
+        # ## EXAMPLE
+        # self.clf_raw = RandomForestClassifier()
+        # self.param_grid = {'max_features': [4],
+        #               'max_depth': [None],
+        #               'min_samples_split' :[10],
+        #               'min_samples_leaf' : [10],
+        #               'criterion':['gini'],
+        #               'bootstrap':[True]}
+
+    def feature_selection(self):
+        self.featureList = [model.name for model in self.models]
+
+    def _convertX(self, X):
+        if self.featureList == []:
+            raise ValueError('No features selected. Please first run feature selection.')
+        predictions = pd.DataFrame()
+        for model in self.models:
+            y_pred = model.predict(X)
+            predictions = pd.concat([predictions, pd.DataFrame({model.name: y_pred})], axis=1, sort=False)
+        return predictions
