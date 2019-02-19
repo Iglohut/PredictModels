@@ -94,7 +94,7 @@ def analyze_feature_importances_all(models):
     plt.savefig('./figs/FeatureImportances.pdf')
 
 
-def plot_featureimportances_drop(models):
+def plot_featureimportances_drop(models, figname=None):
     """
     Uses dropcolumn permuation
     :param models:
@@ -124,4 +124,8 @@ def plot_featureimportances_drop(models):
 
     plt.show()
     plt.tight_layout()
-    plt.savefig('./figs/FeatureImportances.pdf')
+    if figname is None:
+        plt.savefig('./figs/FeatureImportances.pdf')
+    else:
+        savename = './figs/FeatureImportances_' + figname + '.pdf'
+        plt.savefig(savename)

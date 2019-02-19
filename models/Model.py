@@ -130,14 +130,6 @@ class EnsembleModel(Model):
         self.name = "EnsemblebaseModel"
 
         # # SET MODEL: Set the classifier AND parameters to be used for train for each subcass
-        # ## EXAMPLE
-        # self.clf_raw = RandomForestClassifier()
-        # self.param_grid = {'max_features': [4],
-        #               'max_depth': [None],
-        #               'min_samples_split' :[10],
-        #               'min_samples_leaf' : [10],
-        #               'criterion':['gini'],
-        #               'bootstrap':[True]}
 
     def feature_selection(self):
         self.featureList = [model.name for model in self.models]

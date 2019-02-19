@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import sys
-def compareModelAcc(models):
+def compareModelAcc(models, figname=None):
     '''
     Receives as input a list models, containing model objects.
     Plots the accuracy of each model in a barplot.
@@ -33,11 +33,16 @@ def compareModelAcc(models):
         g.text(cv_means[i] + 0.01, i, "".join(["*"] * v), color='black', ha="center")
     plt.show()
     plt.tight_layout()
-    plt.savefig('./figs/modelAccs.pdf')
+
+    if figname is None:
+        plt.savefig('./figs/modelAccs.pdf')
+    else:
+        savename = './figs/modelAccs' + figname + '.pdf'
+        plt.savefig(savename)
 
 
 
-def plotModelCorrelation(models):
+def plotModelCorrelation(models, figname=None):
     '''
     Receives as input a list models, containing model objects.
     Calculates the correlation between each model of the output predictions.
@@ -60,7 +65,15 @@ def plotModelCorrelation(models):
     g = g.set_title("Overlap of generated predictions of models")
     plt.show()
     plt.tight_layout()
-    plt.savefig('./figs/modelCorrs.pdf')
+
+    plt.show()
+    plt.tight_layout()
+    if figname is None:
+        plt.savefig('./figs/modelCorrs.pdf')
+    else:
+        savename = './figs/modelCorrs' + figname + '.pdf'
+        plt.savefig(savename)
+
 
 
 

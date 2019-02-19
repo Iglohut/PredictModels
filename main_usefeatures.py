@@ -107,8 +107,6 @@ for ensembleModel in ensembleModels:
 
 
 
-
-
 # [models.append(m) for m in ensembleModels]
 allModels = flatten([models, ensembleModels])
 # Save models
@@ -118,7 +116,6 @@ saver.save_models(allModels, test_accuracies)
 # Compare models
 compareModelAcc(allModels)
 plotModelCorrelation(allModels)
-# analyze_feature_importances_all(allModels)
 plot_featureimportances_drop(models)
 
 
