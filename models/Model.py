@@ -66,14 +66,15 @@ class Model(object):
                               'Importances': featureImportances,
                               'p_values': np.ones(len(featureList)),
                               }
-        # If calculate p_value using permuation
+
+
+        # If calculate p_value using permuation - Only here it becomes relative
         if n_sim is not None:
             print("Calculating p_values for feature importances...")
             permuation_importances = permutation_FI_list(self, X_train, y_train, X_test, y_test, self.featureImportances['Features'], n_sim=n_sim)
 
             # Normalize on ranking lowest 0, sum to 1..
             permuation_importances = (permuation_importances - permuation_importances.min()) / (permuation_importances - permuation_importances.min()).sum()
-            self.featureImportances["Importances"] = (self.featureImportances["Importances"] - self.featureImportances["Importances"].min()) / (self.featureImportances["Importances"] - self.featureImportances["Importances"].min()).sum()
 
             p_values = [sum((permuation_importances[fi, :] > self.featureImportances["Importances"][fi])) / n_sim for fi
                         in range(len(self.featureImportances['Features']))]
@@ -139,7 +140,7 @@ class Model(object):
         return self.clf.predict(X)
 
     def _convertX(self, X):
-        return X
+        return X[self.featureList]
 
     def __repr__(self):
         return "Model({}, params: {})".format(self.name, self.param_grid)

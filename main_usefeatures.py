@@ -78,7 +78,7 @@ for model in models:
        model.get_pvalue_metric(X_test, y_test)
 
        # Computing Feature importances
-       model.feature_importances(X_train, y_train, X_test, y_test, n_sim=2)
+       model.feature_importances(X_train, y_train, X_test, y_test, n_sim=1)
 
        # Validate
        model.acc = test_auroc(model.name)
