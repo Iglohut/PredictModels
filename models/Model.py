@@ -70,7 +70,14 @@ class Model(object):
         if n_sim is not None:
             print("Calculating p_values for feature importances...")
             permuation_importances = permutation_FI_list(self, X_train, y_train, X_test, y_test, self.featureImportances['Features'], n_sim=n_sim)
-            p_values = [sum((permuation_importances[fi,:] > self.featureImportances["Importances"][fi])) / n_sim for fi in range(len(self.featureImportances['Features']))]
+
+            # Normalize on ranking lowest 0, sum to 1..
+            permuation_importances = (permuation_importances - permuation_importances.min()) / (permuation_importances - permuation_importances.min()).sum()
+            self.featureImportances["Importances"] = (self.featureImportances["Importances"] - self.featureImportances["Importances"].min()) / (self.featureImportances["Importances"] - self.featureImportances["Importances"].min()).sum()
+
+            p_values = [sum((permuation_importances[fi, :] > self.featureImportances["Importances"][fi])) / n_sim for fi
+                        in range(len(self.featureImportances['Features']))]
+
             self.featureImportances["p_values"] = np.array(p_values)
 
 

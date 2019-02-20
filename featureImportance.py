@@ -128,7 +128,7 @@ def plot_featureimportances_drop(models, figname=None):
                 p_values = np.array(classifier.featureImportances["p_values"][indices][:40])
                 p_strings = (p_values < 0.05).astype(int) + (p_values < 0.01) + (p_values < 0.001)
                 for i, v in enumerate(p_strings):
-                    g.text(classifier.featureImportances['Importances'][indices][:40][i]*1.02, i+0.5, "".join(["*"] * v), color='black', ha="center")
+                    g.text(classifier.featureImportances['Importances'][indices][:40][i] + classifier.featureImportances['Importances'].max()*0.02, i+0.5, "".join(["*"] * v), color='black', ha="center")
 
                 nclassifier += 1
     plt.show()
