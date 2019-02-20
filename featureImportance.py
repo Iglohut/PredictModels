@@ -4,6 +4,9 @@ from sklearn.feature_selection import SelectKBest
 from rfpimp import *
 import matplotlib.pyplot as plt
 import seaborn as sns
+import warnings
+from multiprocessing import Pool
+import psutil
 
 # analyze the feature importance in a random forest model
 # see: http://scikit-learn.org/stable/auto_examples/ensemble/plot_forest_importances.html
@@ -112,16 +115,22 @@ def plot_featureimportances_drop(models, figname=None):
             if nclassifier < len(models):
                 name = names_classifiers[nclassifier][0]
                 classifier = names_classifiers[nclassifier][1]
-                indices = np.argsort(classifier.featureImportances[1])[::-1][:40]
-                g = sns.barplot(y=np.array(classifier.featureImportances[0])[indices][:40],  # Featurelist
-                                x=classifier.featureImportances[1][indices][:40], orient='h',
+                indices = np.argsort(classifier.featureImportances['Importances'])[::-1][:40] # Importacces
+                g = sns.barplot(y=np.array(classifier.featureImportances['Features'])[indices][:40],  # Featurelist
+                                x=classifier.featureImportances['Importances'][indices][:40],color="grey", orient='h',
                                 ax=axes[row][col])
                 g.set_xlabel("Relative importance", fontsize=12)
                 g.set_ylabel("Features", fontsize=12)
                 g.tick_params(labelsize=9)
                 g.set_title(name + " feature importance")
-                nclassifier += 1
 
+
+                p_values = np.array(classifier.featureImportances["p_values"][indices][:40])
+                p_strings = (p_values < 0.05).astype(int) + (p_values < 0.01) + (p_values < 0.001)
+                for i, v in enumerate(p_strings):
+                    g.text(classifier.featureImportances['Importances'][indices][:40][i]*1.02, i+0.5, "".join(["*"] * v), color='black', ha="center")
+
+                nclassifier += 1
     plt.show()
     plt.tight_layout()
     if figname is None:
@@ -129,3 +138,60 @@ def plot_featureimportances_drop(models, figname=None):
     else:
         savename = './figs/FeatureImportances_' + figname + '.pdf'
         plt.savefig(savename)
+
+
+
+# Permutation test on features
+class OnePerm:
+    """
+    Does one permutation on all the features for testing feature importances using drop-col method.
+    """
+    def __init__(self, model, X_train, y_train, X_test, y_test, featureList):
+        self.model = model
+        self.X_train = X_train
+        self.y_train = y_train
+        self.X_test = X_test
+        self.y_test = y_test
+        self.featureList = featureList
+
+    def __call__(self, i=None):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            for col in self.X_train.columns:
+                self.X_train[col] = np.random.permutation(self.X_train[col])
+
+            self.clf_tmp = clone(self.model.clf.best_estimator_)
+            self.clf_tmp.random_state = 999
+            self.clf_tmp.fit(self.X_train, self.y_train)
+
+            self.imp_tmp = dropcol_importances(self.clf_tmp, self.X_train, self.y_train, self.X_test, self.y_test)
+        self.featureImportances_tmp = np.array(self.imp_tmp["Importance"][self.featureList]._values)
+        return self.featureImportances_tmp
+
+
+def permutation_FI_list(model, X_train, y_train, X_test, y_test, featureList, n_sim = 100):
+    """
+    :param model: full class model
+    :param X_train:
+    :param y_train:
+    :param X_test:
+    :param y_test:
+    :param featureList:
+    :param n_sim:
+    :return: list of n_sim permutations per feature
+    """
+    # Make class
+    oneperm = OnePerm(model, X_train, y_train, X_test, y_test, featureList)
+
+    # Set CPU's ready
+    p = psutil.Process()
+    p.cpu_affinity()
+    all_cpus = list(range(psutil.cpu_count()))
+    p.cpu_affinity(all_cpus)
+
+    # Multiprocessing
+    p = Pool(6)
+    out_list = p.map(oneperm, range(n_sim))
+    p.close()
+    p.join()
+    return np.array(out_list).T

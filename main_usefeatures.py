@@ -15,8 +15,9 @@ from models.EnsembleXG import EnsembleXG
 from sklearn.model_selection import permutation_test_score
 from sklearn.model_selection import StratifiedKFold
 from models.RFmodel import RF
-
 from models.Model import EnsembleModel
+
+
 
 # Open file
 file = './Data/SS_alldata_OS_ehmt1.csv'
@@ -58,9 +59,7 @@ loader = myLoader()
 models = [RF, Bayes, XGBoost, MLP]
 models = [m() for m in models]
 
-
 ensembleModels = [EnsembleRF, EnsembleXG]
-# ensembleModels = [EnsembleModel]
 ensembleModels = [m(models) for m in ensembleModels]
 
 for model in models:
@@ -79,7 +78,7 @@ for model in models:
        model.get_pvalue_metric(X_test, y_test)
 
        # Computing Feature importances
-       model.feature_importances(X_train, y_train, X_test, y_test)
+       model.feature_importances(X_train, y_train, X_test, y_test, n_sim=None)
 
        # Validate
        model.acc = test_auroc(model.name)
@@ -106,8 +105,6 @@ for ensembleModel in ensembleModels:
 
 
 
-
-# [models.append(m) for m in ensembleModels]
 allModels = flatten([models, ensembleModels])
 # Save models
 test_accuracies = [test_auroc(model.name) for model in allModels]
@@ -117,6 +114,3 @@ saver.save_models(allModels, test_accuracies)
 compareModelAcc(allModels)
 plotModelCorrelation(allModels)
 plot_featureimportances_drop(models)
-
-
-

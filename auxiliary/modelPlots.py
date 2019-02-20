@@ -30,7 +30,7 @@ def compareModelAcc(models, figname=None):
     p_strings = (p_values < 0.05).astype(int) + (p_values < 0.01) + (p_values < 0.001)
 
     for i, v in enumerate(p_strings):
-        g.text(cv_means[i] + 0.01, i, "".join(["*"] * v), color='black', ha="center")
+        g.text(cv_means[i] * 1.02, i, "".join(["*"] * v), color='black', ha="center")
     plt.show()
     plt.tight_layout()
 

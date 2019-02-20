@@ -6,6 +6,8 @@ import numpy as np
 from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import permutation_test_score
 from rfpimp import * # Feature importances permutation tests/drop-col
+import warnings
+from featureImportance import *
 
 class Model(object):
     def __init__(self):
@@ -14,6 +16,7 @@ class Model(object):
         self.name = "RF"
         self.predictions =[]
         self.p_value = np.nan
+        self.acc = np.nan
 
         # NOTE: change this to the name of your model, it is used for the name of the prediction output file
         self.name = "baseModel"
@@ -49,7 +52,7 @@ class Model(object):
 
         self.featureList = list(X_train[self.featureList].dtypes[X_train[self.featureList].dtypes != 'object'].index)
 
-    def feature_importances(self, X_train, y_train, X_test, y_test):
+    def feature_importances(self, X_train, y_train, X_test, y_test, n_sim = None):
         "Computes feature importances base don drop-col: the ultimate measure."
         X_test = self._convertX(X_test)
         X_train = self._convertX(X_train)
@@ -59,7 +62,19 @@ class Model(object):
         imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train,X_test, y_test)
         featureList = np.asarray(imp["Importance"]._stat_axis)
         featureImportances = np.array(imp["Importance"]._values)
-        self.featureImportances = [featureList, featureImportances]
+        self.featureImportances = {'Features': featureList,
+                              'Importances': featureImportances,
+                              'p_values': np.ones(len(featureList)),
+                              }
+        # If calculate p_value using permuation
+        if n_sim is not None:
+            print("Calculating p_values for feature importances...")
+            permuation_importances = permutation_FI_list(self, X_train, y_train, X_test, y_test, self.featureImportances['Features'], n_sim=n_sim)
+            p_values = [sum((permuation_importances[fi,:] > self.featureImportances["Importances"][fi])) / n_sim for fi in range(len(self.featureImportances['Features']))]
+            self.featureImportances["p_values"] = np.array(p_values)
+
+
+        # self.featureImportances = [featureList, featureImportances]
 
     # Training data should probably be a split of features and labels [X, Y]
     def train(self, X_train, y_train):
@@ -106,7 +121,7 @@ class Model(object):
         cv = StratifiedKFold(2)
         score, permutation_scores, pvalue = permutation_test_score(
             self.clf.best_estimator_, X_test, np.ravel(y_test), scoring="roc_auc", cv=cv, n_permutations=100, n_jobs=1)
-        self.p_value = np.copy(pvalue)
+        self.p_value = pvalue
         print(self.name + " p-value roc_auc:", str(pvalue))
 
     def predict(self, X):
@@ -121,6 +136,14 @@ class Model(object):
     def _convertX(self, X):
         return X
 
+    def __repr__(self):
+        return "Model({}, params: {})".format(self.name, self.param_grid)
+
+    def __str__(self):
+        return "Model({}, roc_auc: {:.2},p: {:.4})".format(self.name, self.acc, self.p_value)
+
+    def __add__(self, other):
+        warnings.warn("Warning.....Don't be adding models, use an ensemble model!")
 
 class EnsembleModel(Model):
     def __init__(self, models):
