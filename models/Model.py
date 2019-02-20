@@ -68,7 +68,6 @@ class Model(object):
                               'p_values': np.ones(len(featureList)),
                               }
 
-
         # If calculate p_value using permuation
         if n_sim is not None:
             print("Calculating p_values for feature importances...")

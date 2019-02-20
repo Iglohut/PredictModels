@@ -124,7 +124,7 @@ def plot_featureimportances_drop(models, figname=None):
                 g.tick_params(labelsize=9)
                 g.set_title(name + " feature importance")
 
-
+                # Print p-values as asterixes
                 p_values = np.array(classifier.featureImportances["p_values"][indices][:40])
                 p_strings = (p_values < 0.05).astype(int) + (p_values < 0.01) + (p_values < 0.001)
                 for i, v in enumerate(p_strings):
