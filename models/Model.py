@@ -62,19 +62,21 @@ class Model(object):
         imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train,X_test, y_test)
         featureList = np.asarray(imp["Importance"]._stat_axis)
         featureImportances = np.array(imp["Importance"]._values)
+        featureImportances = (featureImportances - featureImportances.min()) / (featureImportances - featureImportances.min()).sum() # Make relative
         self.featureImportances = {'Features': featureList,
                               'Importances': featureImportances,
                               'p_values': np.ones(len(featureList)),
                               }
 
 
-        # If calculate p_value using permuation - Only here it becomes relative
+        # If calculate p_value using permuation
         if n_sim is not None:
             print("Calculating p_values for feature importances...")
             permuation_importances = permutation_FI_list(self, X_train, y_train, X_test, y_test, self.featureImportances['Features'], n_sim=n_sim)
 
             # Normalize on ranking lowest 0, sum to 1..
             permuation_importances = (permuation_importances - permuation_importances.min()) / (permuation_importances - permuation_importances.min()).sum()
+
 
             p_values = [sum((permuation_importances[fi, :] > self.featureImportances["Importances"][fi])) / n_sim for fi
                         in range(len(self.featureImportances['Features']))]
@@ -170,4 +172,4 @@ class EnsembleModel(Model):
         for model in self.models:
             y_pred = model.predict(X)
             predictions = pd.concat([predictions, pd.DataFrame({model.name: y_pred})], axis=1, sort=False)
-        return predictions
+        return predictions[self.featureList]
