@@ -81,8 +81,6 @@ class Model(object):
             self.featureImportances["p_values"] = np.array(p_values)
 
 
-        # self.featureImportances = [featureList, featureImportances]
-
     # Training data should probably be a split of features and labels [X, Y]
     def train(self, X_train, y_train):
         if self.featureList == []:
