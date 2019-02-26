@@ -8,6 +8,8 @@ from sklearn.model_selection import permutation_test_score
 from rfpimp import * # Feature importances permutation tests/drop-col
 import warnings
 from featureImportance import *
+from testPerformance.testAUROC import get_auroc
+
 
 class Model(object):
     def __init__(self):
@@ -59,7 +61,7 @@ class Model(object):
 
         y_train = np.array(y_train).ravel()
         y_test = np.array(y_test).ravel()
-        imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train,X_test, y_test)
+        imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train,X_test, y_test, metric=get_auroc)
         featureList = np.asarray(imp["Importance"]._stat_axis)
         featureImportances = np.array(imp["Importance"]._values)
         featureImportances = (featureImportances - featureImportances.min()) / (featureImportances - featureImportances.min()).sum() # Make relative

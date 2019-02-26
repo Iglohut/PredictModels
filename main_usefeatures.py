@@ -16,8 +16,7 @@ from sklearn.model_selection import permutation_test_score
 from sklearn.model_selection import StratifiedKFold
 from models.RFmodel import RF
 from models.Model import EnsembleModel
-
-
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 # Open file
 file = './Data/SS_alldata_OS_ehmt1.csv'
@@ -78,7 +77,7 @@ for model in models:
        model.get_pvalue_metric(X_test, y_test)
 
        # Computing Feature importances
-       model.feature_importances(X_train, y_train, X_test, y_test, n_sim=1)
+       model.feature_importances(X_train, y_train, X_test, y_test, n_sim=None)
 
        # Validate
        model.acc = test_auroc(model.name)
@@ -114,3 +113,6 @@ saver.save_models(allModels, test_accuracies)
 compareModelAcc(allModels)
 plotModelCorrelation(allModels)
 plot_featureimportances_drop(models)
+
+
+from sklearn import metrics
