@@ -10,7 +10,7 @@ This model predicts genotype (HET vs EHMT1-) based on behavioural features in th
 ### All data
 <img src="figs/modelAccs-1.png" width="400">
 
-These are absolute feature importances (x-axis labeling is wrong here):
+These are raw feature importances (x-axis labeling is wrong here):
 <img src="figs/FeatureImportances-1.png" width="500">
 
 
