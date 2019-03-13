@@ -9,7 +9,8 @@ This model predicts genotype (HET vs EHMT1-) based on behavioural features in th
 
 ### All data
 <img src="figs/modelAccs-1.png" width="300">
-![Alldata_accs](figs/modelAccs-1.png)
+<img src="figs/FeatureImportances-1.png" width="300">
+![Alldata_accs](figs/modelAccs-1.png =300x200)
 ![Alldata_features](figs/FeatureImportances-1.png =300x200)
 
 ### Per condition
