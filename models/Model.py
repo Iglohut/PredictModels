@@ -43,7 +43,7 @@ class Model(object):
                       'bootstrap':[True]}
 
 
-    def feature_selection(self, X_train):
+    def feature_selection(self, X_train, reselect=False):
         self.featureList = ['first_object', 'first_object_latency',
                             'stay1', 'stay2', 'SS1', 'perseverance', 'n_transitions',
                             'min1_n_explore', 'min2_n_explore', 'min3_n_explore', 'min4_n_explore',
@@ -52,9 +52,14 @@ class Model(object):
                             'min3_obj2_time', 'min4_obj2_time', 'min5_obj2_time', 'min1_DI',
                             'min2_DI', 'min3_DI', 'min4_DI', 'min5_DI']
 
+        # This deletes all features that negatively influenced auroc metric
+        if reselect:
+            indices = self.featureImportances["Importances"] >= 0
+            self.featureList = list(self.featureImportances["Features"][indices])
         self.featureList = list(X_train[self.featureList].dtypes[X_train[self.featureList].dtypes != 'object'].index)
 
-    def feature_importances(self, X_train, y_train, X_test, y_test, n_sim = None):
+
+    def feature_importances(self, X_train, y_train, X_test, y_test, n_sim = None, relative=False):
         "Computes feature importances base don drop-col: the ultimate measure."
         X_test = self._convertX(X_test)
         X_train = self._convertX(X_train)
@@ -64,7 +69,8 @@ class Model(object):
         imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train,X_test, y_test, metric=get_auroc)
         featureList = np.asarray(imp["Importance"]._stat_axis)
         featureImportances = np.array(imp["Importance"]._values)
-        featureImportances = (featureImportances - featureImportances.min()) / (featureImportances - featureImportances.min()).sum() # Make relative
+        if relative:
+            featureImportances = (featureImportances - featureImportances.min()) / (featureImportances - featureImportances.min()).sum() # Make relative
         self.featureImportances = {'Features': featureList,
                               'Importances': featureImportances,
                               'p_values': np.ones(len(featureList)),
@@ -75,9 +81,9 @@ class Model(object):
             print("Calculating p_values for feature importances...")
             permuation_importances = permutation_FI_list(self, X_train, y_train, X_test, y_test, self.featureImportances['Features'], n_sim=n_sim)
 
-            # Normalize on ranking lowest 0, sum to 1..
-            permuation_importances = (permuation_importances - permuation_importances.min()) / (permuation_importances - permuation_importances.min()).sum()
-
+            if relative:
+                # Normalize on ranking lowest 0, sum to 1..
+                permuation_importances = (permuation_importances - permuation_importances.min()) / (permuation_importances - permuation_importances.min()).sum()
 
             p_values = [sum((permuation_importances[fi, :] > self.featureImportances["Importances"][fi])) / n_sim for fi
                         in range(len(self.featureImportances['Features']))]
@@ -92,7 +98,7 @@ class Model(object):
         X_train = self._convertX(X_train)
         # save trainingset size, prepare the data, and select the features
         self.train_set_size = len(X_train)
-        X_train = np.array(X_train[self.featureList])
+        X_train = np.array(X_train)
         y_train = np.array(y_train).ravel()
 
         print("Training model..")
@@ -116,7 +122,7 @@ class Model(object):
             raise ValueError("Couldn't determine training set size, did you run feature_selection and train first?")
         X_test = self._convertX(X_test)
         labels = np.array(labels)
-        X_test = np.array(X_test[self.featureList])
+        X_test = np.array(X_test)
         y_pred = self.clf.predict(X_test)
 
         # Save predictions (write to csv file later)
@@ -139,7 +145,7 @@ class Model(object):
         if self.train_set_size == -1:
             raise ValueError("Couldn't determine training set size, did you run feature_selection and train first?")
         X = self._convertX(X)
-        X = np.array(X[self.featureList])
+        X = np.array(X)
         return self.clf.predict(X)
 
     def _convertX(self, X):

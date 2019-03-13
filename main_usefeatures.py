@@ -43,13 +43,13 @@ features = ['first_object', 'first_object_latency',
 
 target = ["genotype"]
 
-
 # Make input and output
 X = df[features]
 y = df[target]
 
+
 # Train and test data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Set stuff
 saver = mySaver()
@@ -77,7 +77,7 @@ for model in models:
        model.get_pvalue_metric(X_test, y_test)
 
        # Computing Feature importances
-       model.feature_importances(X_train, y_train, X_test, y_test, n_sim=None)
+       model.feature_importances(X_train, y_train, X_test, y_test, n_sim=None, relative=True)
 
        # Validate
        model.acc = test_auroc(model.name)
@@ -110,9 +110,7 @@ test_accuracies = [test_auroc(model.name) for model in allModels]
 saver.save_models(allModels, test_accuracies)
 
 # Compare models
-compareModelAcc(allModels)
-plotModelCorrelation(allModels)
-plot_featureimportances_drop(models)
+compareModelAcc(allModels, figname=figstring)
+plotModelCorrelation(allModels, figname=figstring)
+plot_featureimportances_drop(models, figname=figstring)
 
-
-from sklearn import metrics

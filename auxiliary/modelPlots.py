@@ -37,7 +37,7 @@ def compareModelAcc(models, figname=None):
     if figname is None:
         plt.savefig('./figs/modelAccs.pdf')
     else:
-        savename = './figs/modelAccs' + figname + '.pdf'
+        savename = './figs/modelAccs_' + figname + '.pdf'
         plt.savefig(savename)
 
 
@@ -71,7 +71,7 @@ def plotModelCorrelation(models, figname=None):
     if figname is None:
         plt.savefig('./figs/modelCorrs.pdf')
     else:
-        savename = './figs/modelCorrs' + figname + '.pdf'
+        savename = './figs/modelCorrs_' + figname + '.pdf'
         plt.savefig(savename)
 
 
