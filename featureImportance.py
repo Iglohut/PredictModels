@@ -116,9 +116,16 @@ def plot_featureimportances_drop(models, figname=None):
                 name = names_classifiers[nclassifier][0]
                 classifier = names_classifiers[nclassifier][1]
                 indices = np.argsort(classifier.featureImportances['Importances'])[::-1][:40] # Importacces
-                g = sns.barplot(y=np.array(classifier.featureImportances['Features'])[indices][:40],  # Featurelist
-                                x=classifier.featureImportances['Importances'][indices][:40],color="grey", orient='h',
-                                ax=axes[row][col])
+
+                if nrows > 1:
+                    g = sns.barplot(y=np.array(classifier.featureImportances['Features'])[indices][:40],  # Featurelist
+                                    x=classifier.featureImportances['Importances'][indices][:40],color="grey", orient='h',
+                                    ax=axes[row][col])
+                else:
+                    g = sns.barplot(y=np.array(classifier.featureImportances['Features'])[indices][:40],  # Featurelist
+                                    x=classifier.featureImportances['Importances'][indices][:40],color="grey", orient='h',
+                                    ax=axes[col])
+
                 g.set_xlabel("Relative importance", fontsize=12)
                 g.set_ylabel("Features", fontsize=12)
                 g.tick_params(labelsize=9)
@@ -136,7 +143,7 @@ def plot_featureimportances_drop(models, figname=None):
     if figname is None:
         plt.savefig('./figs/FeatureImportances.pdf')
     else:
-        savename = './figs/FeatureImportances_' + figname + '.pdf'
+        savename = './figs/' +figname + 'FeatureImportances.pdf'
         plt.savefig(savename)
 
 

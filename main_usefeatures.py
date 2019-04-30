@@ -16,6 +16,7 @@ from sklearn.model_selection import permutation_test_score
 from sklearn.model_selection import StratifiedKFold
 from models.RFmodel import RF
 from models.Model import EnsembleModel
+from auxiliary.featurePlots import StatsPlot, plot_topfeatures
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 # Open file
@@ -46,6 +47,7 @@ target = ["genotype"]
 # Make input and output
 X = df[features]
 y = df[target]
+figstring = 'all'
 
 
 # Train and test data
@@ -55,11 +57,11 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 saver = mySaver()
 loader = myLoader()
 
-models = [RF, Bayes, XGBoost, MLP]
+models = [RF, XGBoost]
 models = [m() for m in models]
 
 ensembleModels = [EnsembleRF, EnsembleXG]
-ensembleModels = [m(models) for m in ensembleModels]
+# ensembleModels = [m(models) for m in ensembleModels]
 
 for model in models:
        print("\nUsing ", model.name)
@@ -84,27 +86,28 @@ for model in models:
        print("AUROC on test set is:", test_auroc(model.name))
 
 
-# The ensemble models
-for ensembleModel in ensembleModels:
-       ensembleModel.feature_selection()
-       ensembleModel.train(X_train, y_train)
-       ensembleModel.test(X_test, y_test)
-       saver.save_predictions(ensembleModel.predictions, 'predictions/' + ensembleModel.name + '.csv')
-
-       # Test significance of prediction
-       ensembleModel.get_pvalue_metric(X_test, y_test)
-
-       # Feature importance
-       ensembleModel.feature_importances(X_train, y_train, X_test, y_test)
-
-       # Validate
-       ensembleModel.acc = test_auroc(ensembleModel.name)
-       print("AUROC on test set is:", test_auroc(ensembleModel.name))
-
-
+# # The ensemble models
+# for ensembleModel in ensembleModels:
+#        ensembleModel.feature_selection()
+#        ensembleModel.train(X_train, y_train)
+#        ensembleModel.test(X_test, y_test)
+#        saver.save_predictions(ensembleModel.predictions, 'predictions/' + ensembleModel.name + '.csv')
+#
+#        # Test significance of prediction
+#        ensembleModel.get_pvalue_metric(X_test, y_test)
+#
+#        # Feature importance
+#        ensembleModel.feature_importances(X_train, y_train, X_test, y_test)
+#
+#        # Validate
+#        ensembleModel.acc = test_auroc(ensembleModel.name)
+#        print("AUROC on test set is:", test_auroc(ensembleModel.name))
 
 
-allModels = flatten([models, ensembleModels])
+
+
+# allModels = flatten([models, ensembleModels])
+allModels = models
 # Save models
 test_accuracies = [test_auroc(model.name) for model in allModels]
 saver.save_models(allModels, test_accuracies)
@@ -113,4 +116,5 @@ saver.save_models(allModels, test_accuracies)
 compareModelAcc(allModels, figname=figstring)
 plotModelCorrelation(allModels, figname=figstring)
 plot_featureimportances_drop(models, figname=figstring)
+plot_topfeatures(models, condition='or', ntop=5)
 
