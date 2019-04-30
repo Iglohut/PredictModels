@@ -143,7 +143,7 @@ def plot_featureimportances_drop(models, figname=None):
     if figname is None:
         plt.savefig('./figs/FeatureImportances.pdf')
     else:
-        savename = './figs/' +figname + 'FeatureImportances.pdf'
+        savename = './figs/' +figname + '_FeatureImportances.pdf'
         plt.savefig(savename)
 
 

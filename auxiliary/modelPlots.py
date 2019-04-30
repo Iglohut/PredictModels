@@ -37,7 +37,7 @@ def compareModelAcc(models, figname=None):
     if figname is None:
         plt.savefig('./figs/modelAccs.pdf')
     else:
-        savename = './figs/' + figname + 'modelAccs.pdf'
+        savename = './figs/' + figname + '_modelAccs.pdf'
         plt.savefig(savename)
 
 
