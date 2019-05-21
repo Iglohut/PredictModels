@@ -3,13 +3,13 @@ import seaborn as sns
 import numpy as np
 from mlxtend.evaluate import permutation_test
 import matplotlib.pyplot as plt
+from auxiliary.importData import ImportData
+
 
 class StatsPlot:
-    df = pd.read_csv('./Data/SS_alldata_OS_ehmt1.csv')
-    def __init__(self, features, condition = None, nsim=10000):
-        # Select condition to plot
-        if condition is not None:
-            self.df = self.df[self.df['condition'] == condition]
+    def __init__(self, features, condition = None, nsim=10000, remove_outliers=False):
+        # Import the data
+        self.df = ImportData(condition=condition, remove_outliers=None).df
 
         # Set main vars
         self.features = features # features to plot as y-value
@@ -37,10 +37,13 @@ class StatsPlot:
             ncols = n_features
             nrows = 1
         else:
-            ncols = maxcols
-            nrows =int(np.floor(n_features/ncols) + np.mod(n_features, ncols))
+            ncols = int(np.sqrt(n_features))
+            if ncols > maxcols: ncols=maxcols
+            # nrows =int(np.floor(n_features/ncols) + np.mod(n_features, ncols))
+            nrows = int(1 + (n_features -1)//ncols)
         f, axes = plt.subplots(nrows=nrows, ncols=ncols, sharex="all", figsize=(15, 15))
         meanprops = {"marker":"s","markerfacecolor":"white", "markeredgecolor":"black"}
+
 
         # Make subplots
         counter = 0

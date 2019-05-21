@@ -9,7 +9,7 @@ from rfpimp import * # Feature importances permutation tests/drop-col
 import warnings
 from featureImportance import *
 from testPerformance.testAUROC import get_auroc
-
+from auxiliary.importData import ImportData
 
 class Model(object):
     def __init__(self):
@@ -44,13 +44,8 @@ class Model(object):
 
 
     def feature_selection(self, X_train, reselect=False):
-        self.featureList = ['first_object', 'first_object_latency',
-                            'stay1', 'stay2', 'SS1', 'perseverance', 'n_transitions',
-                            'min1_n_explore', 'min2_n_explore', 'min3_n_explore', 'min4_n_explore',
-                            'min5_n_explore', 'min1_obj1_time', 'min2_obj1_time', 'min3_obj1_time',
-                            'min4_obj1_time', 'min5_obj1_time', 'min1_obj2_time', 'min2_obj2_time',
-                            'min3_obj2_time', 'min4_obj2_time', 'min5_obj2_time', 'min1_DI',
-                            'min2_DI', 'min3_DI', 'min4_DI', 'min5_DI']
+        self.featureList = ImportData.features
+
 
         # This deletes all features that negatively influenced auroc metric
         if reselect:

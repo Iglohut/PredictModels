@@ -17,37 +17,19 @@ from sklearn.model_selection import StratifiedKFold
 from models.RFmodel import RF
 from models.Model import EnsembleModel
 from auxiliary.featurePlots import StatsPlot, plot_topfeatures
+from auxiliary.importData import ImportData
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-# Open file
-file = './Data/SS_alldata_OS_ehmt1.csv'
-df = pd.read_csv(file)
 
-# General preprocessing
-df = df.loc[~df.subject.isin([8, 9, 10, 11, 12])] # Don't go over round 2 subjects
+subsets = [None, 'or', 'od', 'con']
+# For saving plots name
+figstring = str(subsets[0])
+condition = subsets[0]
 
-fillFeatures = ['stay1', 'stay2', 'SS1'] # Features that could be nan if mouse never switched object
-df[fillFeatures] = df[fillFeatures].fillna(-1) # Fill the nans with -1: choose more logical value?
-
-df['condition'].replace(['con', 'od', 'or'], [0,1, 2], inplace=True)
-
-df = df.dropna()
-
-# # Select features
-features = ['first_object', 'first_object_latency',
-       'stay1', 'stay2', 'SS1', 'perseverance', 'n_transitions',
-       'min1_n_explore', 'min2_n_explore', 'min3_n_explore', 'min4_n_explore',
-       'min5_n_explore', 'min1_obj1_time', 'min2_obj1_time', 'min3_obj1_time',
-       'min4_obj1_time', 'min5_obj1_time', 'min1_obj2_time', 'min2_obj2_time',
-       'min3_obj2_time', 'min4_obj2_time', 'min5_obj2_time', 'min1_DI',
-       'min2_DI', 'min3_DI', 'min4_DI', 'min5_DI']
-
-target = ["genotype"]
-
-# Make input and output
-X = df[features]
-y = df[target]
-figstring = 'all'
+# import the data
+Data = ImportData(condition=None, remove_outliers=None)
+X = Data.X
+y = Data.y
 
 
 # Train and test data
@@ -116,5 +98,5 @@ saver.save_models(allModels, test_accuracies)
 compareModelAcc(allModels, figname=figstring)
 plotModelCorrelation(allModels, figname=figstring)
 plot_featureimportances_drop(models, figname=figstring)
-plot_topfeatures(models, condition='or', ntop=5)
+plot_topfeatures(models, condition=condition, ntop=5)
 
