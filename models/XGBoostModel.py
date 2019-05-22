@@ -24,6 +24,34 @@ class XGBoost(Model):
         #     'objective': 'binary:logistic'
         # }
 
-        ind_params = {'colsample_bytree': 0.6, 'gamma': 1, 'max_depth': 5, 'min_child_weight': 1, 'subsample': 1.0}
-        self.param_grid = {'colsample_bytree': [0.6], 'gamma': [1], 'max_depth': [5], 'min_child_weight': [1], 'subsample': [1.0]}
-        self.clf_raw = XGBClassifier(**ind_params)
+
+        self.param_grid = {'colsample_bytree': [0.6], 'gamma': [1], 'max_depth': [5], 'min_child_weight': [1], 'subsample': [1.0],  'n_estimators':  [500]}
+
+        # self.param_grid = {'colsample_bytree': [0.5, .75, 1.0],
+        #                    'gamma': [0.5, 0.75, 1.0],
+        #                    'max_depth': [3, 6, 10],
+        #                    'subsample': [0.5, 0.8, 1.0],
+        #                    'min_child_weight': [1, 2],
+        #                    'eta': [0.01, 0.1, 0.2, 0.3, 0.4],
+        #                    'lambda': [0.5, 0.8, 1.0],
+        #                    'objective': ['binary:logistic'],
+        #                    'n_estimators': [100],
+        #                    'seed': [42],
+        #                    'learning_rate': [0.1, 0.2, 0.3]
+        #                    }
+
+
+        # self.param_grid = {'colsample_bytree': [0.7],
+        #                    'gamma': [0.5],
+        #                    'max_depth': [10],
+        #                    'subsample': [0.8],
+        #                    'min_child_weight': [1],
+        #                    'eta': [0.01, 0.1],
+        #                    'lambda': [0.5],
+        #                    'objective': ['binary:logistic'],
+        #                    'n_estimators': [100, 500],
+        #                    'seed': [42],
+        #                    'learning_rate': [0.1]
+        #                    }
+
+        self.clf_raw = XGBClassifier()

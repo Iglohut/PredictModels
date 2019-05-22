@@ -31,7 +31,7 @@ class ImportData():
 
     def load_dataset(self, remove_outliers = None):
         df = pd.read_csv('./Data/SS_alldata_OS_ehmt1.csv')
-        df = df.loc[~df.subject.isin([8, 9, 10, 11, 12])]  # Don't go over round 2 subjects
+        df = df.loc[~df.subject.isin([8, 9, 10, 11, 12] + list(range(100, 120)))]  # Don't go over round 2/8 subjects
         fillFeatures = ['stay1', 'stay2', 'SS1']  # Features that could be nan if mouse never switched object
         df[fillFeatures] = df[fillFeatures].fillna(-1)  # Fill the nans with -1: choose more logical value?
         df['condition'].replace(['con', 'od', 'or'], [0, 1, 2], inplace=True)
