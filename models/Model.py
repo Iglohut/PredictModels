@@ -10,6 +10,8 @@ import warnings
 from featureImportance import *
 from testPerformance.testAUROC import get_auroc
 from auxiliary.importData import ImportData
+from auxiliary.funcs import flatten, normalize, sum_1
+from sklearn import preprocessing
 
 class Model(object):
     def __init__(self):
@@ -61,26 +63,39 @@ class Model(object):
 
         y_train = np.array(y_train).ravel()
         y_test = np.array(y_test).ravel()
-        imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train,X_test, y_test, metric=get_auroc)
+        # imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train, X_test, y_test, metric=get_auroc)
+        imp = importances(self.clf.best_estimator_, X_test, y_test, metric=get_auroc)
         featureList = np.asarray(imp["Importance"]._stat_axis)
         featureImportances = np.array(imp["Importance"]._values)
         if relative:
-            featureImportances = (featureImportances - featureImportances.min()) / (featureImportances - featureImportances.min()).sum() # Make relative
+            # featureImportances = (featureImportances - featureImportances.min()) / (featureImportances - featureImportances.min()).sum() # Make relative
+
+            # featureImportances = normalize(featureImportances)
+            featureImportances = sum_1(featureImportances)
+
         self.featureImportances = {'Features': featureList,
-                              'Importances': featureImportances,
+                              'Importances': np.array(flatten(featureImportances)),
                               'p_values': np.ones(len(featureList)),
                               }
 
         # If calculate p_value using permuation
         if n_sim is not None:
             print("Calculating p_values for feature importances...")
-            permuation_importances = permutation_FI_list(self, X_train, y_train, X_test, y_test, self.featureImportances['Features'], n_sim=n_sim)
+            permutation_importances = permutation_FI_list(self, X_train, y_train, X_test, y_test, self.featureImportances['Features'], n_sim=n_sim)
 
             if relative:
                 # Normalize on ranking lowest 0, sum to 1..
-                permuation_importances = (permuation_importances - permuation_importances.min()) / (permuation_importances - permuation_importances.min()).sum()
+                # permuation_importances = (permuation_importances - permuation_importances.min()) / (permuation_importances - permuation_importances.min()).sum()
+                self.tmp = permutation_importances
 
-            p_values = [sum((permuation_importances[fi, :] > self.featureImportances["Importances"][fi])) / n_sim for fi
+                # permutation_importances = np.vstack([normalize(np.vstack(self.tmp).T[:, i]) for i in range(n_sim)]).T
+                permutation_importances = np.vstack([sum_1(np.vstack(self.tmp).T[:, i]) for i in range(n_sim)]).T
+
+
+                self.tmp = permutation_importances
+                # print(self.tmp)
+
+            p_values = [sum((permutation_importances[fi, :] > self.featureImportances["Importances"][fi])) / n_sim for fi
                         in range(len(self.featureImportances['Features']))]
 
             self.featureImportances["p_values"] = np.array(p_values)
@@ -175,3 +190,5 @@ class EnsembleModel(Model):
             y_pred = model.predict(X)
             predictions = pd.concat([predictions, pd.DataFrame({model.name: y_pred})], axis=1, sort=False)
         return predictions[self.featureList]
+
+

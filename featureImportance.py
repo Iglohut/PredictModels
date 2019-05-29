@@ -7,6 +7,8 @@ import seaborn as sns
 import warnings
 from multiprocessing import Pool
 import psutil
+from testPerformance.testAUROC import get_auroc
+from auxiliary.funcs import flatten
 
 # analyze the feature importance in a random forest model
 # see: http://scikit-learn.org/stable/auto_examples/ensemble/plot_forest_importances.html
@@ -115,14 +117,14 @@ def plot_featureimportances_drop(models, figname=None):
             if nclassifier < len(models):
                 name = names_classifiers[nclassifier][0]
                 classifier = names_classifiers[nclassifier][1]
-                indices = np.argsort(classifier.featureImportances['Importances'])[::-1][:40] # Importacces
+                indices = np.array(flatten(np.argsort(classifier.featureImportances['Importances'])[::-1][:40])) # Importacces
 
                 if nrows > 1:
-                    g = sns.barplot(y=np.array(classifier.featureImportances['Features'])[indices][:40],  # Featurelist
+                    g = sns.barplot(y=classifier.featureImportances['Features'][indices][:40],  # Featurelist
                                     x=classifier.featureImportances['Importances'][indices][:40],color="grey", orient='h',
                                     ax=axes[row][col])
                 else:
-                    g = sns.barplot(y=np.array(classifier.featureImportances['Features'])[indices][:40],  # Featurelist
+                    g = sns.barplot(y=classifier.featureImportances['Features'][indices][:40],  # Featurelist
                                     x=classifier.featureImportances['Importances'][indices][:40],color="grey", orient='h',
                                     ax=axes[col])
 
@@ -164,15 +166,24 @@ class OnePerm:
     def __call__(self, i=None):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            for col in self.X_train.columns:
-                self.X_train[col] = np.random.permutation(self.X_train[col])
+            # for col in self.X_train.columns:
+            #     self.X_train[col] = np.random.permutation(self.X_train[col])
 
-            self.clf_tmp = clone(self.model.clf.best_estimator_)
-            self.clf_tmp.random_state = 999
-            self.clf_tmp.fit(self.X_train, self.y_train)
 
-            self.imp_tmp = dropcol_importances(self.clf_tmp, self.X_train, self.y_train, self.X_test, self.y_test)
+            for col in self.X_test.columns:
+                self.X_test[col] = np.random.permutation(self.X_test[col])
+
+            # self.clf_tmp = clone(self.model.clf.best_estimator_)
+            # self.clf_tmp.random_state = 999
+            # self.clf_tmp.fit(self.X_train, self.y_train)
+
+            # self.imp_tmp = dropcol_importances(self.clf_tmp, self.X_train, self.y_train, self.X_test, self.y_test, metric=get_auroc)
+
+            self.imp_tmp = importances(self.model.clf.best_estimator_, self.X_test, self.y_test, metric=get_auroc)
         self.featureImportances_tmp = np.array(self.imp_tmp["Importance"][self.featureList]._values)
+
+
+
         return self.featureImportances_tmp
 
 
@@ -190,15 +201,20 @@ def permutation_FI_list(model, X_train, y_train, X_test, y_test, featureList, n_
     # Make class
     oneperm = OnePerm(model, X_train, y_train, X_test, y_test, featureList)
 
-    # Set CPU's ready
-    p = psutil.Process()
-    p.cpu_affinity()
-    all_cpus = list(range(psutil.cpu_count()))
-    p.cpu_affinity(all_cpus)
+    # # Set CPU's ready
+    # p = psutil.Process()
+    # p.cpu_affinity()
+    # all_cpus = list(range(psutil.cpu_count()))
+    # p.cpu_affinity(all_cpus)
+    #
+    # # Multiprocessing
+    # p = Pool(6)
+    # out_list = p.map(oneperm, range(n_sim))
+    # p.close()
+    # p.join()
+    #
+    #
+    # return np.array(out_list).T
+    perms = [oneperm(i) for i in range(n_sim)]
 
-    # Multiprocessing
-    p = Pool(6)
-    out_list = p.map(oneperm, range(n_sim))
-    p.close()
-    p.join()
-    return np.array(out_list).T
+    return perms

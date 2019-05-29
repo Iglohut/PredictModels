@@ -9,13 +9,22 @@ class ImportData():
                 "min1_n_explore", "min2_n_explore", "min3_n_explore", "min4_n_explore", "min5_n_explore",
                 'min1_n_explore_obj1', 'min2_n_explore_obj1', 'min3_n_explore_obj1', 'min4_n_explore_obj1',
                 'min5_n_explore_obj1',
-                'min1_n_explore_obj2', 'min2_n_explore_obj2', 'min3_n_explore_obj2', 'min4_n_explore_obj2',
-                'min5_n_explore_obj2',
+                'min1_n_explore_obj2', 'min2_n_explore_obj2', 'min3_n_explore_obj2', 'min4_n_explore_obj2', 'min5_n_explore_obj2',
                 "min1_obj1_time", "min2_obj1_time", "min3_obj1_time", "min4_obj1_time", "min5_obj1_time",
                 "min1_obj2_time", "min2_obj2_time", "min3_obj2_time", "min4_obj2_time", "min5_obj2_time",
                 "min1_DI", "min2_DI", "min3_DI", "min4_DI", "min5_DI",
                 "min1_explore_time", "min2_explore_time", "min3_explore_time", "min4_explore_time", "min5_explore_time",
                 "bout_time", "bout_obj1_time", "bout_obj2_time"]
+
+    # Try fewer featues?
+    # features = ["first_object", "first_object_latency", "stay1", "stay2", "SS1", "perseverance", "n_transitions",
+    #             "min1_n_explore", "min2_n_explore", "min3_n_explore", "min4_n_explore", "min5_n_explore",
+    #             'min1_n_explore_obj1', 'min2_n_explore_obj1', 'min3_n_explore_obj1', 'min4_n_explore_obj1',
+    #             'min5_n_explore_obj1',
+    #             'min1_n_explore_obj2', 'min2_n_explore_obj2', 'min3_n_explore_obj2', 'min4_n_explore_obj2', 'min5_n_explore_obj2',
+    #             "min1_DI", "min2_DI", "min3_DI", "min4_DI", "min5_DI",
+    #             "min5_explore_time",
+    #             "bout_time", "bout_obj1_time", "bout_obj2_time"]
 
     target = ["genotype"]
 

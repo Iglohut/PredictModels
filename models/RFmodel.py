@@ -28,7 +28,7 @@ class RF(Model):
         self.param_grid = {'bootstrap': [True],
                            'criterion': ['entropy', 'gini'],
                            'max_depth': [None],
-                           'max_features': [0.1, 0.25],
+                           'max_features': [0.1],
                            'min_samples_leaf': [1],
                            'min_samples_split': [10],
                            'n_estimators': [500]}
