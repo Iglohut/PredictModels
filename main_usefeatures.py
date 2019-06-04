@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot  as plt
 from sklearn.model_selection import train_test_split
 from featureImportance import *
 from testPerformance.testAUROC import get_auroc, test_auroc
@@ -30,6 +31,7 @@ subsets = [None, 'or', 'od', 'con']
 
 for condition in subsets:
        figstring = str(condition)
+       print("Doing condition: {}".format(figstring))
 
        # import the data
        Data = ImportData(condition=condition, remove_outliers=None)
@@ -38,7 +40,7 @@ for condition in subsets:
 
 
        # Train and test data
-       X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42) # was 42
+       X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
        # Set stuff
        saver = mySaver()
@@ -66,7 +68,7 @@ for condition in subsets:
               model.get_pvalue_metric(X_test, y_test)
 
               # Computing Feature importances
-              model.feature_importances(X_train, y_train, X_test, y_test, n_sim=5000, relative=True)
+              model.feature_importances(X_train, y_train, X_test, y_test, n_sim=2000, relative=True)
 
               # Validate
               model.acc = test_auroc(model.name)
@@ -105,5 +107,4 @@ for condition in subsets:
        plot_featureimportances_drop(models, figname=figstring)
        plot_topfeatures(models, condition=condition, ntop=5)
 
-       import matplotlib.pyplot  as plt
        plt.close('all')

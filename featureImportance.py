@@ -166,20 +166,20 @@ class OnePerm:
     def __call__(self, i=None):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            # for col in self.X_train.columns:
-            #     self.X_train[col] = np.random.permutation(self.X_train[col])
+            for col in self.X_train.columns:
+                self.X_train[col] = np.random.permutation(self.X_train[col])
 
 
-            for col in self.X_test.columns:
-                self.X_test[col] = np.random.permutation(self.X_test[col])
+            # for col in self.X_test.columns:
+            #     self.X_test[col] = np.random.permutation(self.X_test[col])
 
-            # self.clf_tmp = clone(self.model.clf.best_estimator_)
-            # self.clf_tmp.random_state = 999
-            # self.clf_tmp.fit(self.X_train, self.y_train)
+            self.clf_tmp = clone(self.model.clf.best_estimator_)
+            self.clf_tmp.random_state = 999
+            self.clf_tmp.fit(self.X_train, self.y_train)
 
-            # self.imp_tmp = dropcol_importances(self.clf_tmp, self.X_train, self.y_train, self.X_test, self.y_test, metric=get_auroc)
+            self.imp_tmp = dropcol_importances(self.clf_tmp, self.X_train, self.y_train, self.X_test, self.y_test, metric=get_auroc)
 
-            self.imp_tmp = importances(self.model.clf.best_estimator_, self.X_test, self.y_test, metric=get_auroc)
+            # self.imp_tmp = importances(self.model.clf.best_estimator_, self.X_test, self.y_test, metric=get_auroc)
         self.featureImportances_tmp = np.array(self.imp_tmp["Importance"][self.featureList]._values)
 
 

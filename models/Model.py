@@ -63,8 +63,8 @@ class Model(object):
 
         y_train = np.array(y_train).ravel()
         y_test = np.array(y_test).ravel()
-        # imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train, X_test, y_test, metric=get_auroc)
-        imp = importances(self.clf.best_estimator_, X_test, y_test, metric=get_auroc)
+        imp = dropcol_importances(self.clf.best_estimator_, X_train, y_train, X_test, y_test, metric=get_auroc)
+        # imp = importances(self.clf.best_estimator_, X_test, y_test, metric=get_auroc)
         featureList = np.asarray(imp["Importance"]._stat_axis)
         featureImportances = np.array(imp["Importance"]._values)
         if relative:
