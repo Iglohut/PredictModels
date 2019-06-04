@@ -41,8 +41,6 @@ def classify(subsets=[None], n_sim=2000):
 
            # Train and test data
            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-           y_train = np.array(y_train).ravel()
-           y_test = np.array(y_test).ravel()
 
            # Set stuff
            saver = mySaver()
