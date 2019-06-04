@@ -41,6 +41,8 @@ for condition in subsets:
 
        # Train and test data
        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+       # y_train = np.array(y_train).ravel()
+       # y_test = np.array(y_test).ravel()
 
        # Set stuff
        saver = mySaver()
@@ -68,7 +70,7 @@ for condition in subsets:
               model.get_pvalue_metric(X_test, y_test)
 
               # Computing Feature importances
-              model.feature_importances(X_train, y_train, X_test, y_test, n_sim=2000, relative=True)
+              model.feature_importances(X_train, y_train, X_test, y_test, n_sim=None, relative=True)
 
               # Validate
               model.acc = test_auroc(model.name)
