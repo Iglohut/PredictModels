@@ -21,7 +21,7 @@ from auxiliary.featurePlots import StatsPlot, plot_topfeatures
 from auxiliary.importData import ImportData
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 import sys
-sys.setrecursionlimit(1500)
+# sys.setrecursionlimit(1500)
 
 subsets = [None, 'or', 'od', 'con']
 # For saving plots name
@@ -71,8 +71,8 @@ for condition in subsets:
               model.feature_importances(X_train, y_train, X_test, y_test, n_sim=None, relative=True)
 
               # Validate
-              model.acc = test_auroc(model.name)
-              print("AUROC on test set is:", test_auroc(model.name))
+              model.acc = test_auroc(model, pos_label=1, subset=figstring)
+              print("AUROC on test set is:", model.acc)
 
 
        # # The ensemble models
@@ -98,7 +98,7 @@ for condition in subsets:
        # allModels = flatten([models, ensembleModels])
        allModels = models
        # Save models
-       test_accuracies = [test_auroc(model.name) for model in allModels]
+       test_accuracies = [model.acc for model in allModels]
        saver.save_models(allModels, test_accuracies)
 
        # Compare models

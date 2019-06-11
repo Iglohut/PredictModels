@@ -7,6 +7,27 @@ from auxiliary.importData import ImportData
 
 
 class StatsPlot:
+    plotsize = {1: {'n_rows': 1,
+                    'n_columns': 1},
+                2: {'n_rows': 1,
+                    'n_columns': 2},
+                3: {'n_rows': 1,
+                    'n_columns': 3},
+                4: {'n_rows': 1,
+                    'n_columns': 4},
+                5: {'n_rows': 1,
+                    'n_columns': 5},
+                6: {'n_rows': 2,
+                    'n_columns': 3},
+                7: {'n_rows': 2,
+                    'n_columns': 4},
+                8: {'n_rows': 2,
+                    'n_columns': 4},
+                9: {'n_rows': 3,
+                    'n_columns': 3},
+                10: {'n_rows': 2,
+                     'n_columns': 5}
+                }
     def __init__(self, features, condition = None, nsim=10000, remove_outliers=False):
         # Import the data
         self.df = ImportData(condition=condition, remove_outliers=None).df
@@ -31,16 +52,20 @@ class StatsPlot:
         """
         n_features = len(self.features)
 
-        # Set figure size
-        maxcols = 5
-        if n_features <= maxcols:
-            ncols = n_features
-            nrows = 1
-        else:
-            ncols = int(np.sqrt(n_features))
-            if ncols > maxcols: ncols=maxcols
-            # nrows =int(np.floor(n_features/ncols) + np.mod(n_features, ncols))
-            nrows = int(1 + (n_features -1)//ncols)
+        # # Set figure size
+        # maxcols = 5
+        # if n_features <= maxcols:
+        #     ncols = n_features
+        #     nrows = 1
+        # else:
+        #     ncols = int(np.sqrt(n_features))
+        #     if ncols > maxcols: ncols=maxcols
+        #     # nrows =int(np.floor(n_features/ncols) + np.mod(n_features, ncols))
+        #     nrows = int(1 + (n_features -1)//ncols)
+
+        nrows = self.plotsize[n_features]['n_rows']
+        ncols = self.plotsize[n_features]['n_columns']
+
         f, axes = plt.subplots(nrows=nrows, ncols=ncols, sharex="all", figsize=(15, 15))
         meanprops = {"marker":"s","markerfacecolor":"white", "markeredgecolor":"black"}
 
@@ -114,4 +139,5 @@ def plot_topfeatures(models, condition = None, ntop=5):
 # features = ['min1_obj1_time', 'min2_obj1_time', 'min3_obj1_time', 'min4_obj1_time','min5_obj1_time']
 # features = ['n_transitions', 'min2_obj2_time', 'min5_DI']
 # _ = StatsPlot(features)
+
 
