@@ -105,9 +105,12 @@ def plot_featureimportances_drop(models, figname=None):
     :param models:
     :return:
     """
+    maxplot = 10
+
     ncols = int(np.ceil(np.sqrt(len(models))))
     nrows = int(np.round(np.sqrt(len(models))))
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, sharex="all", figsize=(15, 15))
+    # fig, axes = plt.subplots(nrows=nrows, ncols=ncols, sharex="all", figsize=(15, 15))
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, sharex="all", figsize=(8, 4))
 
     names_classifiers = [(model.name, model) for model in models]
 
@@ -117,27 +120,28 @@ def plot_featureimportances_drop(models, figname=None):
             if nclassifier < len(models):
                 name = names_classifiers[nclassifier][0]
                 classifier = names_classifiers[nclassifier][1]
-                indices = np.array(flatten(np.argsort(classifier.featureImportances['Importances'])[::-1][:40])) # Importacces
+                indices = np.array(flatten(np.argsort(classifier.featureImportances['Importances'])[::-1][:maxplot])) # Importacces
 
                 if nrows > 1:
-                    g = sns.barplot(y=classifier.featureImportances['Features'][indices][:40],  # Featurelist
-                                    x=classifier.featureImportances['Importances'][indices][:40],color="grey", orient='h',
+                    g = sns.barplot(y=classifier.featureImportances['Features'][indices][:maxplot],  # Featurelist
+                                    x=classifier.featureImportances['Importances'][indices][:maxplot],color="grey", orient='h',
                                     ax=axes[row][col])
                 else:
-                    g = sns.barplot(y=classifier.featureImportances['Features'][indices][:40],  # Featurelist
-                                    x=classifier.featureImportances['Importances'][indices][:40],color="grey", orient='h',
+                    g = sns.barplot(y=classifier.featureImportances['Features'][indices][:maxplot],  # Featurelist
+                                    x=classifier.featureImportances['Importances'][indices][:maxplot],color="grey", orient='h',
                                     ax=axes[col])
 
                 g.set_xlabel("Relative importance", fontsize=12)
-                g.set_ylabel("Features", fontsize=12)
+                if (row + 1) * (col + 1) == 1:
+                    g.set_ylabel("Feature", fontsize=12)
                 g.tick_params(labelsize=9)
-                g.set_title(name + " feature importance")
+                g.set_title(name)
 
                 # Print p-values as asterixes
-                p_values = np.array(classifier.featureImportances["p_values"][indices][:40])
+                p_values = np.array(classifier.featureImportances["p_values"][indices][:maxplot])
                 p_strings = (p_values < 0.05).astype(int) + (p_values < 0.01) + (p_values < 0.001)
                 for i, v in enumerate(p_strings):
-                    g.text(classifier.featureImportances['Importances'][indices][:40][i] + classifier.featureImportances['Importances'].max()*0.02, i+0.5, "".join(["*"] * v), color='black', ha="center")
+                    g.text(classifier.featureImportances['Importances'][indices][:maxplot][i] + classifier.featureImportances['Importances'].max()*0.02, i+0.5, "".join(["*"] * v), color='black', ha="center")
 
                 nclassifier += 1
     plt.show()

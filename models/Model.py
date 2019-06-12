@@ -140,12 +140,12 @@ class Model(object):
         for i, prediction in enumerate(y_pred):
             self.predictions.append([labels[i][0], prediction])
 
-    def get_pvalue_metric(self,X_test, y_test):
+    def get_pvalue_metric(self,X_test, y_test, n_perms=100):
         "Computes permutation p-value for the roc_auc metric."
         X_test = self._convertX(X_test)
         cv = StratifiedKFold(2)
         score, permutation_scores, pvalue = permutation_test_score(
-            self.clf.best_estimator_, X_test, np.ravel(y_test), scoring="roc_auc", cv=cv, n_permutations=100, n_jobs=1)
+            self.clf.best_estimator_, X_test, np.ravel(y_test), scoring="roc_auc", cv=cv, n_permutations=n_perms, n_jobs=4, verbose=1)
         self.p_value = pvalue
         print(self.name + " p-value roc_auc:", str(pvalue))
 

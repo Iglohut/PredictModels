@@ -65,7 +65,7 @@ for condition in subsets:
               saver.save_predictions(model.predictions, 'predictions/' + model.name + '.csv')
 
               # Test significance of prediction
-              model.get_pvalue_metric(X_test, y_test)
+              model.get_pvalue_metric(X_test, y_test, n_perms=1)
 
               # Computing Feature importances
               model.feature_importances(X_train, y_train, X_test, y_test, n_sim=None, relative=True)
